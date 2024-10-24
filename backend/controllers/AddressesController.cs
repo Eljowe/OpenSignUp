@@ -3,12 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using RegistrationProject.Data;
 using RegistrationProject.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RegistrationProject.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class AddressesController : ControllerBase
     {
         private readonly RegistrationDbContext _context;
@@ -93,6 +94,21 @@ namespace RegistrationProject.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        [HttpGet("test-database")]
+        public async Task<ActionResult> TestDatabase()
+        {
+            try
+            {
+                // Perform a basic database operation
+                var address = await _context.Addresses.FirstOrDefaultAsync();
+                return Ok(new { success = true, data = address });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = ex.Message });
+            }
         }
 
         private bool AddressExists(int id)

@@ -4,3 +4,7 @@
 node_modules/
 dist/
 *.log
+
+bin/
+/backend/bin/
+/backend/obj/*
